@@ -22,10 +22,15 @@ vim.keymap.set('n', 'q', '<Nop>', { noremap = true, silent = true }) -- unmap q 
 vim.keymap.set('n', '<leader>o', ':update<CR> :source<CR>', { desc = "Update and Source current buffer" })
 vim.keymap.set('n', '<leader>w', ':write<CR>', { desc = "Save buffer" })
 vim.keymap.set('n', '<leader>qq', ':wq<CR>', { desc = "Save&Quit" })
+vim.keymap.set('n', '<Tab>', ':tabnext<CR>', { desc = "Next tab" })
+vim.keymap.set('n', '<S-Tab>', ':tabprevious<CR>' , { desc = "Prev tab" })
+
 
 -- system clipboard
 vim.keymap.set({'n', 'v', 'x'}, '<leader>y', '"+y<CR>', { desc = "yank to system clipboard" })
 vim.keymap.set({'n', 'v', 'x'}, '<leader>d', '"+d<CR>', { desc = "delete to system clipboard" })
+vim.keymap.set({'n', 'v' }, '<leader>p', '"+p<CR>', { desc = "paste from system clipboard" })
+
 
 -- package install
 vim.pack.add({
@@ -36,6 +41,9 @@ vim.pack.add({
         { src = "https://github.com/mason-org/mason-lspconfig.nvim" },
 		{ src = "https://github.com/neanias/everforest-nvim" }, -- style
 		{ src = "https://github.com/mg979/vim-visual-multi" }, -- multicursor; C_down/up; S_arrows; C_N
+        { src = "https://github.com/kdheepak/lazygit.nvim" }, -- lazygit
+        { src = "https://github.com/mgierada/lazydocker.nvim" }, -- lazydocker
+            -- { src = "https://github.com/akinsho/toggleterm.nvim" }, -- required by lazydocker; autoinstall
 })
 
 -- package setup
@@ -43,10 +51,13 @@ require("mini.pick").setup()
 require("oil").setup()
 require("mason").setup()
 require("mason-lspconfig").setup()
+require("lazydocker").setup()
 
 -- package keymaps
 vim.keymap.set('n', '<leader>f', ":Pick files<CR>", { desc = "Picker files" })
 vim.keymap.set('n', '<leader>e', ":Oil --float<CR>", { desc = "Oil float" })
+vim.keymap.set('n', '<leader>lg', "<CMD>LazyGit<CR>", { desc = "Run LazyGit" })
+vim.keymap.set('n', '<leader>ld', function() require("lazydocker").open() end, { desc = "Run LazyDocker" })
 
 -- appearance
 vim.cmd("colorscheme everforest")
