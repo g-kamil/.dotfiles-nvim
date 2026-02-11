@@ -109,6 +109,7 @@ require("toggleterm").setup({
 
 vim.keymap.set('n', '<leader>tv', '<cmd>ToggleTerm direction=vertical size=60<CR>', { desc = "Terminal Vertical Split" })
 vim.keymap.set('n', '<leader>th', '<cmd>ToggleTerm direction=horizontal size=15<CR>', { desc = "Terminal Horizontal Split" })
+vim.keymap.set('t', '<Esc><Esc>', [[<C-\><C-n>]], { desc = "Exit terminal mode" })
 
 -- lazygit & lazydocker
 vim.keymap.set('n', '<leader>lg', "<CMD>LazyGit<CR>", { desc = "Run LazyGit" })
