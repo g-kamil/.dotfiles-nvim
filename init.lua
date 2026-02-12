@@ -76,6 +76,9 @@ vim.pack.add({
         { src = "https://github.com/akinsho/toggleterm.nvim" },
         { src = "https://github.com/kdheepak/lazygit.nvim" },
         { src = "https://github.com/mgierada/lazydocker.nvim" },
+        -- markdown
+        { src = "https://github.com/MeanderingProgrammer/render-markdown.nvim" },
+        { src = "https://github.com/nvim-tree/nvim-web-devicons" }, -- icons rendering in markdown
 })
 
 -- ============= --
@@ -110,6 +113,11 @@ require("toggleterm").setup({
 vim.keymap.set('n', '<leader>tv', '<cmd>ToggleTerm direction=vertical size=60<CR>', { desc = "Terminal Vertical Split" })
 vim.keymap.set('n', '<leader>th', '<cmd>ToggleTerm direction=horizontal size=15<CR>', { desc = "Terminal Horizontal Split" })
 vim.keymap.set('t', '<Esc><Esc>', [[<C-\><C-n>]], { desc = "Exit terminal mode" })
+
+-- markdown
+require("render-markdown").setup()
+vim.o.conceallevel = 2 -- allows hiding markup to show icons instead
+vim.keymap.set('n', '<leader>m', "<cmd>RenderMarkdown toggle<CR>", { desc = "Toggle Markdown Render" })
 
 -- lazygit & lazydocker
 vim.keymap.set('n', '<leader>lg', "<CMD>LazyGit<CR>", { desc = "Run LazyGit" })
