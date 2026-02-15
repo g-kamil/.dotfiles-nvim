@@ -72,6 +72,7 @@ vim.pack.add({
 		{ src = "https://github.com/neovim/nvim-lspconfig" },
         { src = "https://github.com/mason-org/mason.nvim" },
         { src = "https://github.com/mason-org/mason-lspconfig.nvim" },
+        { src = "https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim" }, -- for auto tool instalation
         -- autocompletion
         { src = "https://github.com/hrsh7th/nvim-cmp" },
         { src = "https://github.com/hrsh7th/cmp-nvim-lsp" },
@@ -82,8 +83,7 @@ vim.pack.add({
         { src = "https://github.com/kdheepak/lazygit.nvim" },
         { src = "https://github.com/mgierada/lazydocker.nvim" },
         -- markdown
-        { src = "https://github.com/MeanderingProgrammer/render-markdown.nvim" },
-        { src = "https://github.com/nvim-tree/nvim-web-devicons" }, -- icons rendering in markdown
+        { src = "https://github.com/OXY2DEV/markview.nvim" },
 })
 
 -- ============= --
@@ -129,7 +129,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end,
 })
 
-local servers = { "ty", "gopls", "bashls", "lua_ls" }
+local servers = { "ty", "gopls", "bashls", "lua_ls", }
 
 require("mason").setup()
 require("mason-lspconfig").setup({
@@ -138,7 +138,11 @@ require("mason-lspconfig").setup({
         function(server_name) vim.lsp.enable(server_name) end,
     }
 })
-
+require("mason-tool-installer").setup({
+    ensure_installed = { "deno" },
+    auto_update = true,
+    run_on_start = true,
+})
 
 -- terminal
 require("toggleterm").setup({
@@ -151,13 +155,13 @@ keymaps.set('n', '<leader>th', '<cmd>ToggleTerm direction=horizontal size=15<CR>
 keymaps.set('t', '<Esc><Esc>', [[<C-\><C-n>]], { desc = "Exit terminal mode" })
 
 -- markdown
-require("render-markdown").setup()
-vim.api.nvim_create_autocmd("FileType", {
-    pattern = { "md", "markdown" },
-    callback = function() vim.wo.conceallevel = 2 end
-}) -- allows hiding markup to show icons instead
+require("markview").setup({
+    initial_state = false,
+})
 
-keymaps.set('n', '<leader>m', "<cmd>RenderMarkdown toggle<CR>", { desc = "Toggle Markdown Render" })
+
+keymaps.set("n", "<leader>mp", "<cmd>Markview splitToggle<CR>", { desc = "Toggle Markdown Preview" })
+
 
 -- lazygit & lazydocker
 keymaps.set('n', '<leader>lg', "<CMD>LazyGit<CR>", { desc = "Run LazyGit" })

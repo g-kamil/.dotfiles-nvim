@@ -28,9 +28,17 @@
       "rev": "a04ad0dbc725134edbee3a5eea29290976695357",
       "src": "https://github.com/kdheepak/lazygit.nvim"
     },
+    "markview.nvim": {
+      "rev": "9e852c299351fc2110e763edc7fc899358ee112e",
+      "src": "https://github.com/OXY2DEV/markview.nvim"
+    },
     "mason-lspconfig.nvim": {
       "rev": "ae609525ddf01c153c39305730b1791800ffe4fe",
       "src": "https://github.com/mason-org/mason-lspconfig.nvim"
+    },
+    "mason-tool-installer.nvim": {
+      "rev": "443f1ef8b5e6bf47045cb2217b6f748a223cf7dc",
+      "src": "https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim"
     },
     "mason.nvim": {
       "rev": "44d1e90e1f66e077268191e3ee9d2ac97cc18e65",
@@ -59,6 +67,10 @@
     "oil.nvim": {
       "rev": "f55b25e493a7df76371cfadd0ded5004cb9cd48a",
       "src": "https://github.com/stevearc/oil.nvim"
+    },
+    "peek.nvim": {
+      "rev": "5820d937d5414baea5f586dc2a3d912a74636e5b",
+      "src": "https://github.com/toppair/peek.nvim"
     },
     "render-markdown.nvim": {
       "rev": "48b4175dbca8439d30c1f52231cbe5a712c8f9d9",
