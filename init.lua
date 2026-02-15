@@ -73,10 +73,10 @@ vim.pack.add({
         { src = "https://github.com/mason-org/mason.nvim" },
         { src = "https://github.com/mason-org/mason-lspconfig.nvim" },
         -- autocompletion
-        { src = "https://github.com/hrsh7th/nvim-cmp" },     -- The engine
-        { src = "https://github.com/hrsh7th/cmp-nvim-lsp" }, -- LSP source for cmp
-        { src = "https://github.com/hrsh7th/cmp-buffer" },   -- Buffer source
-        { src = "https://github.com/hrsh7th/cmp-path" },     -- Path source
+        { src = "https://github.com/hrsh7th/nvim-cmp" },
+        { src = "https://github.com/hrsh7th/cmp-nvim-lsp" },
+        { src = "https://github.com/hrsh7th/cmp-buffer" },
+        { src = "https://github.com/hrsh7th/cmp-path" },
         -- terminal
         { src = "https://github.com/akinsho/toggleterm.nvim" },
         { src = "https://github.com/kdheepak/lazygit.nvim" },
@@ -103,11 +103,42 @@ require('nvim-treesitter').setup({
     indent = { enable = true },
 })
 
--- completion
+-- lsp
+vim.diagnostic.config({
+  virtual_text = true,
+  signs = true,
+  update_in_insert = false,
+  underline = true,
+  severity_sort = true,
+  float = { border = 'rounded', source = 'always' },
+})
+
+vim.api.nvim_create_autocmd('LspAttach', {
+  desc = 'LSP actions',
+  callback = function(event)
+    local opts = {buffer = event.buf, silent = true}
+
+    keymaps.set('n', 'gd', vim.lsp.buf.definition, opts)
+    keymaps.set('n', 'gD', vim.lsp.buf.declaration, opts)
+    keymaps.set('n', 'gi', vim.lsp.buf.implementation, opts)
+    keymaps.set('n', 'go', vim.lsp.buf.type_definition, opts)
+    keymaps.set('n', 'gr', vim.lsp.buf.references, opts)
+    keymaps.set('n', 'K', vim.lsp.buf.hover, opts)
+    keymaps.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
+    keymaps.set('n', '<leader>ca', vim.lsp.buf.code_action, opts)
+  end,
+})
+
+local servers = { "ty", "gopls", "bashls", "lua_ls" }
+
 require("mason").setup()
 require("mason-lspconfig").setup({
-    ensure_installed = { "ty", "gopls", "bashls", "lua_ls" },
+    ensure_installed = servers,
+    handlers = {
+        function(server_name) vim.lsp.enable(server_name) end,
+    }
 })
+
 
 -- terminal
 require("toggleterm").setup({
@@ -121,7 +152,11 @@ keymaps.set('t', '<Esc><Esc>', [[<C-\><C-n>]], { desc = "Exit terminal mode" })
 
 -- markdown
 require("render-markdown").setup()
-options.conceallevel = 2 -- allows hiding markup to show icons instead
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = { "md", "markdown" },
+    callback = function() vim.wo.conceallevel = 2 end
+}) -- allows hiding markup to show icons instead
+
 keymaps.set('n', '<leader>m', "<cmd>RenderMarkdown toggle<CR>", { desc = "Toggle Markdown Render" })
 
 -- lazygit & lazydocker
@@ -147,7 +182,7 @@ wk.add({
 -- other keymaps
 keymaps.set('n', '<leader>ff', ":Pick files<CR>", { desc = "Find files" })
 keymaps.set('n', '<leader>fs', ":Pick grep_live<CR>", { desc = "Find string" }) -- Search text in project
-keymaps.set('n', '<leader>e', ":Oil --float<CR>", { desc = "Oil" })
+keymaps.set('n', '<leader>ee', ":Oil --float<CR>", { desc = "Oil" })
 
 
 -- programming keymaps
