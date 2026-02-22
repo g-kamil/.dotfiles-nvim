@@ -84,6 +84,12 @@ vim.pack.add({
         { src = "https://github.com/mgierada/lazydocker.nvim" },
         -- markdown
         { src = "https://github.com/OXY2DEV/markview.nvim" },
+        -- debugging
+        { src = "https://github.com/mfussenegger/nvim-dap" },
+        { src = "https://github.com/mfussenegger/nvim-dap-python" },
+        { src = "https://github.com/rcarriga/nvim-dap-ui" },
+        { src = "https://github.com/nvim-neotest/nvim-nio" },          -- required by dap-ui
+        { src = "https://github.com/theHamsta/nvim-dap-virtual-text" }, -- display dap info directly in buffer
 })
 
 -- ============= --
@@ -139,10 +145,71 @@ require("mason-lspconfig").setup({
     }
 })
 require("mason-tool-installer").setup({
-    ensure_installed = { "deno" },
+    ensure_installed = { "deno", "debugpy" },
     auto_update = true,
     run_on_start = true,
 })
+
+-- debugging
+local dap = require("dap")
+local dapui = require("dapui")
+
+require("dap-python").setup(vim.fn.exepath("debugpy-adapter"))
+require("nvim-dap-virtual-text").setup()
+dapui.setup({
+    layouts = {
+        {
+            elements = {
+                { id = "scopes", size = 0.35 },
+                { id = "breakpoints", size = 0.15 },
+                { id = "stacks", size = 0.25 },
+                { id = "watches", size = 0.25 },
+            },
+            position = "left",
+            size = 40,
+        },
+        {
+            elements = {
+                { id = "repl", size = 0.5 },
+                { id = "console", size = 0.5 },
+            },
+            position = "bottom",
+            size = 10,
+        },
+    },
+})
+
+vim.fn.sign_define("DapBreakpoint", {
+    text = "",
+    texthl = "DiagnosticSignError",
+    linehl = "",
+    numhl = "",
+})
+
+vim.fn.sign_define("DapBreakpointRejected", {
+    text = "", -- or "❌"
+    texthl = "DiagnosticSignError",
+    linehl = "",
+    numhl = "",
+})
+
+vim.fn.sign_define("DapStopped", {
+    text = "", -- or "→"
+    texthl = "DiagnosticSignWarn",
+    linehl = "Visual",
+    numhl = "DiagnosticSignWarn",
+})
+
+keymaps.set('n', '<leader>db', dap.toggle_breakpoint, { desc = "Debug: Toggle Breakpoint" })
+keymaps.set('n', '<leader>dc', dap.continue, { desc = "Debug: Start/Continue" })
+keymaps.set('n', '<leader>do', dap.step_over, { desc = "Debug: Step Over" })
+keymaps.set('n', '<leader>di', dap.step_into, { desc = "Debug: Step Into" })
+keymaps.set('n', '<leader>dO', dap.step_out, { desc = "Debug: Step Out" })
+keymaps.set('n', '<leader>du', dapui.toggle, { desc = "Debug: Toggle UI" })
+keymaps.set('n', '<leader>dB', function() dap.set_breakpoint(vim.fn.input('Breakpoint condition: ')) end, { desc = "Debug: Conditional Breakpoint" })
+keymaps.set('n', '<leader>dq', dap.terminate, { desc = "Debug: Stop" })
+keymaps.set('n', '<leader>ddw', vim.diagnostic.open_float, { desc = "Open floating diagnostic window" })
+keymaps.set('n', '<leader>ddl', vim.diagnostic.setloclist, { desc = "Diagnostic list" })
 
 -- terminal
 require("toggleterm").setup({
@@ -181,6 +248,7 @@ wk.add({
     { '<leader>s', group = '[S]plit', icon = "󰤼 " },
     { '<leader>t', group = '[T]erm',  icon = " " },
     { '<leader>jj', hidden = true },
+    { '<leader>d', group = '[D]ebug', icon = "" },
 })
 
 -- other keymaps
@@ -190,8 +258,6 @@ keymaps.set('n', '<leader>ee', ":Oil --float<CR>", { desc = "Oil" })
 
 
 -- programming keymaps
-keymaps.set('n', '<leader>d', vim.diagnostic.open_float, { desc = "Open floating diagnostic window" })
-keymaps.set('n', '<leader>qf', vim.diagnostic.setloclist, { desc = "Diagnostic list" })
 keymaps.set('i', '<S-Tab>', '<C-d>', { desc = "Move indent left in insert mode" })
 keymaps.set('v', '<Tab>', '>gv', { desc = "Move selected lines right" })
 keymaps.set('v', '<S-Tab>', '<gv', { desc = "Move selected lines left" })
