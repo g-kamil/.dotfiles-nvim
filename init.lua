@@ -19,11 +19,12 @@ vim.cmd("colorscheme everforest")
 vim.pack.add({
         -- editor elements
 		{ src = "https://github.com/stevearc/oil.nvim" }, -- for file managing
-		{ src = "https://github.com/echasnovski/mini.pick" }, -- for file picking
-		{ src = "https://github.com/echasnovski/mini.starter" }, -- dashboard
-		{ src = "https://github.com/echasnovski/mini.sessions" }, -- session management
+		{ src = "https://github.com/nvim-mini/mini.pick" }, -- for file picking
+		{ src = "https://github.com/nvim-mini/mini.starter" }, -- dashboard
+		{ src = "https://github.com/nvim-mini/mini.sessions" }, -- session management
+        { src = "https://github.com/nvim-mini/mini.clue" }, -- keybinding hints
+        { src = "https://github.com/nvim-mini/mini.extra" }, -- keybinding hints
 		{ src = "https://github.com/mg979/vim-visual-multi" }, -- multicursor; C_down/up; S_arrows; C_N
-        { src = "https://github.com/echasnovski/mini.clue" }, -- keybinding hints
         { src = "https://github.com/akinsho/toggleterm.nvim" }, -- terminal
         { src = "https://github.com/kdheepak/lazygit.nvim" }, -- for managing git
         { src = "https://github.com/mgierada/lazydocker.nvim" }, -- for managing docker

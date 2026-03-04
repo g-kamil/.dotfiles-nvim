@@ -2,6 +2,11 @@ local keymaps = vim.keymap
 
 -- picker
 require("mini.pick").setup()
+require("mini.extra").setup()
+
+-- keymaps
+keymaps.set('n', '<leader>fk', '<Cmd>Pick keymaps<CR>', { desc = 'Find Keymap'})
+keymaps.set('n', '<leader>fc', '<Cmd>Pick commands<CR>', { desc = 'Find Command'})
 
 -- sessions
 local session = require("mini.sessions")
@@ -139,7 +144,7 @@ miniclue.setup({
 })
 
 -- other keymaps
-keymaps.set('n', '<leader>ff', ":Pick files<CR>", { desc = "Find files" })
-keymaps.set('n', '<leader>fs', ":Pick grep_live<CR>", { desc = "Find string" }) -- Search text in project
+keymaps.set('n', '<leader>ff', ":Pick files<CR>", { desc = "Find Files" })
+keymaps.set('n', '<leader>fs', ":Pick grep_live<CR>", { desc = "Find String" }) -- Search text in project
 keymaps.set('n', '<leader>ee', ":Oil --float<CR>", { desc = "Oil" })
 
