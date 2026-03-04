@@ -19,13 +19,15 @@ vim.cmd("colorscheme everforest")
 vim.pack.add({
         -- editor elements
 		{ src = "https://github.com/stevearc/oil.nvim" }, -- for file managing
-		{ src = "https://github.com/echasnovski/mini.pick" }, -- for file picking 
+		{ src = "https://github.com/echasnovski/mini.pick" }, -- for file picking
+		{ src = "https://github.com/echasnovski/mini.starter" }, -- dashboard
+		{ src = "https://github.com/echasnovski/mini.sessions" }, -- session management
 		{ src = "https://github.com/mg979/vim-visual-multi" }, -- multicursor; C_down/up; S_arrows; C_N
         { src = "https://github.com/folke/which-key.nvim" }, -- displays keybinding
         { src = "https://github.com/akinsho/toggleterm.nvim" }, -- terminal
         { src = "https://github.com/kdheepak/lazygit.nvim" }, -- for managing git
         { src = "https://github.com/mgierada/lazydocker.nvim" }, -- for managing docker
-        { src = "https://github.com/OXY2DEV/markview.nvim" }, -- for makrdown preview
+        { src = "https://github.com/OXY2DEV/markview.nvim" }, -- for markdown preview
         -- lsp configs
 		{ src = "https://github.com/neovim/nvim-lspconfig" },
         { src = "https://github.com/mason-org/mason.nvim" },
@@ -39,6 +41,7 @@ vim.pack.add({
         -- debugging
         { src = "https://github.com/mfussenegger/nvim-dap" },
         { src = "https://github.com/mfussenegger/nvim-dap-python" },
+        { src = "https://github.com/leoluz/nvim-dap-go" },
         { src = "https://github.com/rcarriga/nvim-dap-ui" },
         { src = "https://github.com/nvim-neotest/nvim-nio" },          -- required by dap-ui
         { src = "https://github.com/theHamsta/nvim-dap-virtual-text" }, -- display dap info directly in buffer

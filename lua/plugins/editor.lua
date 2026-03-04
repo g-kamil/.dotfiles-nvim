@@ -2,6 +2,65 @@ local keymaps = vim.keymap
 
 require("mini.pick").setup()
 
+-- sessions
+require("mini.sessions").setup({
+    autowrite = true,
+})
+
+keymaps.set('n', '<leader>Sw', function()
+    local name = vim.fn.input('Session name: ')
+    if name ~= '' then require('mini.sessions').write(name) end
+end, { desc = "Save Session" })
+
+keymaps.set('n', '<leader>Sr', function()
+    require('mini.sessions').select('read')
+end, { desc = "Restore Session" })
+
+keymaps.set('n', '<leader>Sd', function()
+    require('mini.sessions').select('delete')
+end, { desc = "Delete Session" })
+
+-- dashboard
+local starter = require('mini.starter')
+
+local header = table.concat({
+"⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣤⣶⣶⣶⣶⣶⣤⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀ ",
+"⠀⠀⠀⠀⠀⠀⣠⣴⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣄⡀⠀⠀⠀⠀⠀",
+"⠀⠀⠀⣠⣴⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣮⣵⣄⠀⠀⠀ Oh, hey!",
+"⠀⠀⢾⣻⣿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢿⣿⣿⡀⠀",
+"⠀⠸⣽⣻⠃⣿⡿⠋⣉⠛⣿⣿⣿⣿⣿⣿⣿⣿⣏⡟⠉⡉⢻⣿⡌⣿⣳⡥⠀",
+"⠀⢜⣳⡟⢸⣿⣷⣄⣠⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⣤⣠⣼⣿⣇⢸⢧⢣⠀",
+"⠀⠨⢳⠇⣸⣿⣿⢿⣿⣿⣿⣿⡿⠿⠿⠿⢿⣿⣿⣿⣿⣿⣿⣿⣿⠀⡟⢆⠀",
+"⠀⠀⠈⠀⣾⣿⣿⣼⣿⣿⣿⣿⡀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣽⣿⣿⠐⠈⠀⠀",
+"⠀⢀⣀⣼⣷⣭⣛⣯⡝⠿⢿⣛⣋⣤⣤⣀⣉⣛⣻⡿⢟⣵⣟⣯⣶⣿⣄⡀⠀",
+"⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣶⣶⣶⣾⣶⣶⣴⣾⣿⣿⣿⣿⣿⣿⢿⣿⣿⣧",
+"⣿⣿⣿⠿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠿⣿⡿",
+}, '\n')
+
+local docker_starter = function()
+    local ld = require("lazydocker")
+    ld.open()
+end
+
+starter.setup({
+    items = {
+        { name = 'Find Files',  action = 'Pick files',     section = 'Actions' },
+        { name = 'Find String', action = 'Pick grep_live', section = 'Actions' },
+        { name = 'File Browser',action = 'Oil --float',    section = 'Actions' },
+        { name = 'LazyGit',     action = 'LazyGit',        section = 'Actions' },
+        { name = 'LazyDocker',  action = docker_starter,   section = 'Actions' },
+        { name = 'New File',    action = 'enew',           section = 'Actions' },
+        starter.sections.recent_files(5, false),
+        starter.sections.sessions(5, true),
+    },
+    header = header,
+    content_hooks = {
+        starter.gen_hook.adding_bullet('  ', false),
+        starter.gen_hook.indexing('all', { 'Recent files', 'Sessions' }),
+        starter.gen_hook.aligning('center', 'center'),
+    },
+})
+
 require("oil").setup({
     view_options = { show_hidden = true },
     float = { padding = 8, max_width = 90, max_height = 0 }
@@ -22,9 +81,7 @@ require("markview").setup({
     initial_state = false,
 })
 
-
 keymaps.set("n", "<leader>mp", "<cmd>Markview splitToggle<CR>", { desc = "Toggle Markdown Preview" })
-
 
 -- lazygit & lazydocker
 keymaps.set('n', '<leader>lg', "<CMD>LazyGit<CR>", { desc = "Run LazyGit" })
@@ -39,12 +96,13 @@ wk.setup({
 })
 
 wk.add({
-    { '<leader>f', group = '[F]ind', icon = " " },
-    { '<leader>l', group = '[L]azy', icon = " " },
-    { '<leader>s', group = '[S]plit', icon = "󰤼 " },
-    { '<leader>t', group = '[T]erm',  icon = " " },
+    { '<leader>f', group = '[F]ind', icon = " " },
+    { '<leader>l', group = '[L]azy', icon = " " },
+    { '<leader>s', group = '[s]plit', icon = "󰤼 " },
+    { '<leader>S', group = '[S]essions', icon = " " },
+    { '<leader>t', group = '[T]erm',  icon = " " },
+    { '<leader>d', group = '[D]ebug', icon = "" },
     { '<leader>jj', hidden = true },
-    { '<leader>d', group = '[D]ebug', icon = "" },
 })
 
 -- other keymaps
