@@ -1,4 +1,3 @@
-
 local keymaps = vim.keymap
 
 keymaps.set('n', 'q', '<Nop>', { noremap = true, silent = true }) -- unmap q as it's fucking annoying
@@ -26,7 +25,6 @@ keymaps.set('n', '<M-Right>', ':vertical resize +2<CR>', { desc = "Resize window
 keymaps.set({'n', 'v', 'x'}, '<leader>y', '"+y<CR>', { desc = "yank to system clipboard" })
 keymaps.set({'n', 'v', 'x'}, '<leader>d', '"+d<CR>', { desc = "delete to system clipboard" })
 keymaps.set({'n', 'v' }, '<leader>p', '"+p<CR>', { desc = "paste from system clipboard" })
-
 
 -- programming keymaps
 keymaps.set('i', '<S-Tab>', '<C-d>', { desc = "Move indent left in insert mode" })
