@@ -7,7 +7,7 @@ keymaps.set('n', 's', '<Nop>', { noremap = true, silent = true }) -- unmap s so 
 -- standard keymaps
 keymaps.set('n', '<leader>o', ':update<CR> :source<CR>', { desc = "Update and Source current buffer" })
 keymaps.set('n', '<leader>w', ':write<CR>', { desc = "Save buffer" })
-keymaps.set('n', '<leader>qq', ':quit<CR>', { desc = "Quit" })
+keymaps.set('n', '<leader>qq', ':quit!<CR>', { desc = "Quit" })
 keymaps.set('n', '<leader>jj', ':wq<CR>', { desc = "Write&Quit" })
 keymaps.set('n', '<Tab>', ':tabnext<CR>', { desc = "Next tab" })
 keymaps.set('n', '<S-Tab>', ':tabprevious<CR>' , { desc = "Prev tab" })

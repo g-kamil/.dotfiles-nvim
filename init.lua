@@ -23,7 +23,7 @@ vim.pack.add({
 		{ src = "https://github.com/echasnovski/mini.starter" }, -- dashboard
 		{ src = "https://github.com/echasnovski/mini.sessions" }, -- session management
 		{ src = "https://github.com/mg979/vim-visual-multi" }, -- multicursor; C_down/up; S_arrows; C_N
-        { src = "https://github.com/folke/which-key.nvim" }, -- displays keybinding
+        { src = "https://github.com/echasnovski/mini.clue" }, -- keybinding hints
         { src = "https://github.com/akinsho/toggleterm.nvim" }, -- terminal
         { src = "https://github.com/kdheepak/lazygit.nvim" }, -- for managing git
         { src = "https://github.com/mgierada/lazydocker.nvim" }, -- for managing docker

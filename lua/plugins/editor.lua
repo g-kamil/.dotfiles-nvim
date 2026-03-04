@@ -3,22 +3,19 @@ local keymaps = vim.keymap
 require("mini.pick").setup()
 
 -- sessions
-require("mini.sessions").setup({
+local session = require("mini.sessions")
+
+session.setup({
     autowrite = true,
 })
 
 keymaps.set('n', '<leader>Sw', function()
     local name = vim.fn.input('Session name: ')
-    if name ~= '' then require('mini.sessions').write(name) end
+    if name ~= '' then session.write(name) end
 end, { desc = "Save Session" })
 
-keymaps.set('n', '<leader>Sr', function()
-    require('mini.sessions').select('read')
-end, { desc = "Restore Session" })
-
-keymaps.set('n', '<leader>Sd', function()
-    require('mini.sessions').select('delete')
-end, { desc = "Delete Session" })
+keymaps.set('n', '<leader>Sr', function() session.select('read') end, { desc = "Restore Session" })
+keymaps.set('n', '<leader>Sd', function() session.select('delete') end, { desc = "Delete Session" })
 
 -- dashboard
 local starter = require('mini.starter')
@@ -87,22 +84,56 @@ keymaps.set("n", "<leader>mp", "<cmd>Markview splitToggle<CR>", { desc = "Toggle
 keymaps.set('n', '<leader>lg', "<CMD>LazyGit<CR>", { desc = "Run LazyGit" })
 keymaps.set('n', '<leader>ld', function() require("lazydocker").open() end, { desc = "Run LazyDocker" })
 
--- keymap help
-local wk = require("which-key")
+-- keybinding hints
+local miniclue = require('mini.clue')
 
-wk.setup({
-    preset = "classic",
-    delay = 900,
-})
+miniclue.setup({
+    triggers = {
+        { mode = 'n', keys = '<Leader>' },
+        { mode = 'n', keys = '<C-w>' },
+        { mode = 'n', keys = "'" },
+        { mode = 'n', keys = '`' },
+        { mode = 'n', keys = 'g' },
+        { mode = 'n', keys = '"' },
+        { mode = 'n', keys = 'z' },
+        { mode = 'x', keys = '<Leader>' },
+        { mode = 'x', keys = 'g' },
+        { mode = 'x', keys = "'" },
+        { mode = 'x', keys = '`' },
+        { mode = 'x', keys = '"' },
+        { mode = 'x', keys = 'z' },
+        { mode = 'i', keys = '<C-r>' },
+        { mode = 'i', keys = '<C-x>' },
+        { mode = 'c', keys = '<C-r>' },
+    },
 
-wk.add({
-    { '<leader>f', group = '[F]ind', icon = " " },
-    { '<leader>l', group = '[L]azy', icon = " " },
-    { '<leader>s', group = '[s]plit', icon = "󰤼 " },
-    { '<leader>S', group = '[S]essions', icon = " " },
-    { '<leader>t', group = '[T]erm',  icon = " " },
-    { '<leader>d', group = '[D]ebug', icon = "" },
-    { '<leader>jj', hidden = true },
+    clues = {
+        miniclue.gen_clues.builtin_completion(),
+        miniclue.gen_clues.g(),
+        miniclue.gen_clues.marks(),
+        miniclue.gen_clues.registers(),
+        miniclue.gen_clues.windows(),
+        miniclue.gen_clues.z(),
+
+        { mode = 'n', keys = '<Leader>f', desc = '+find' },
+        { mode = 'n', keys = '<Leader>l', desc = '+lazy' },
+        { mode = 'n', keys = '<Leader>s', desc = '+split' },
+        { mode = 'n', keys = '<Leader>S', desc = '+sessions' },
+        { mode = 'n', keys = '<Leader>t', desc = '+term' },
+        { mode = 'n', keys = '<Leader>d', desc = '+debug' },
+        { mode = 'n', keys = '<Leader>m', desc = '+markdown' },
+    },
+
+    window = {
+        delay = 600,
+        config = {
+            width = 'auto',
+            border = 'rounded',
+            anchor = 'SW',
+            row = 'auto',
+            col = 'auto',
+        },
+    },
 })
 
 -- other keymaps
