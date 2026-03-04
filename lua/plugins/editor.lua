@@ -1,5 +1,6 @@
 local keymaps = vim.keymap
 
+-- picker
 require("mini.pick").setup()
 
 -- sessions
@@ -58,6 +59,7 @@ starter.setup({
     },
 })
 
+-- file explorer
 require("oil").setup({
     view_options = { show_hidden = true },
     float = { padding = 8, max_width = 90, max_height = 0 }
