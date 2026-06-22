@@ -3,6 +3,9 @@
         "globals": ["vim"]
     },
     "workspace": {
-        "library": ["$VIMRUNTIME/lua"]
+        "library": [
+            "$VIMRUNTIME/lua",
+            "/usr/share/hypr/stubs"
+        ]
     }
 }
